@@ -4,11 +4,14 @@ import '../components/my_button.dart';
 import '../components/my_textfield.dart';
 
 class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+  RegisterPage({super.key, required this.onTap});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
   final TextEditingController _confirmPwController = TextEditingController();
+
+  // tap to go to login page
+  final void Function() onTap;
 
   //register metod
   void register() {
@@ -71,11 +74,14 @@ class RegisterPage extends StatelessWidget {
                   "Already have an account? ",
                   style: TextStyle(color: theme.colorScheme.primary),
                 ),
-                Text(
-                  "Login now",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
+                GestureDetector(
+                  onTap: onTap,
+                  child: Text(
+                    "Login now",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
                 ),
               ],
