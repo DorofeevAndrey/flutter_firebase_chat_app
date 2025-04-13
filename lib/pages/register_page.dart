@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_chat_app/auth/auth_service.dart';
 
 import '../components/my_button.dart';
 import '../components/my_textfield.dart';
@@ -13,9 +14,30 @@ class RegisterPage extends StatelessWidget {
   // tap to go to login page
   final void Function() onTap;
 
-  //register metod
-  void register() {
-    //
+  //register method
+  void register(BuildContext context) {
+    // get auth service
+    final auth = AuthService();
+    // passwords match -> create user
+    if (_pwController.text == _confirmPwController.text) {
+      try {
+        auth.signUpWithEmailPassword(_emailController.text, _pwController.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(title: Text(e.toString())),
+        );
+      }
+    }
+    // passwords dont match -> tell user to fix
+    else {
+      showDialog(
+        context: context,
+        builder:
+            (context) =>
+                const AlertDialog(title: Text("Password don't match!")),
+      );
+    }
   }
 
   @override
@@ -63,7 +85,12 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(height: 25),
 
             // login button
-            MyButton(title: "Register", onTap: register),
+            MyButton(
+              title: "Register",
+              onTap: () {
+                register(context);
+              },
+            ),
             const SizedBox(height: 25),
 
             // regiter now
