@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+
+import '../components/my_button.dart';
+import '../components/my_textfield.dart';
+
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _pwController = TextEditingController();
+  final TextEditingController _confirmPwController = TextEditingController();
+
+  //register metod
+  void register() {
+    //
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // logo
+            Icon(Icons.message, size: 60, color: theme.colorScheme.primary),
+            const SizedBox(height: 50),
+
+            // welcome back message
+            Text(
+              "Let's create an account for you",
+              style: TextStyle(color: theme.colorScheme.primary, fontSize: 16),
+            ),
+            const SizedBox(height: 25),
+
+            // email textfield
+            MyTextfield(
+              hintText: "Email",
+              obscureText: false,
+              controller: _emailController,
+            ),
+            const SizedBox(height: 10),
+
+            // pw textfield
+            MyTextfield(
+              hintText: "Password",
+              obscureText: true,
+              controller: _pwController,
+            ),
+            const SizedBox(height: 10),
+
+            // confirm pw textfield
+            MyTextfield(
+              hintText: "Confirm password",
+              obscureText: true,
+              controller: _confirmPwController,
+            ),
+            const SizedBox(height: 25),
+
+            // login button
+            MyButton(title: "Register", onTap: register),
+            const SizedBox(height: 25),
+
+            // regiter now
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Already have an account? ",
+                  style: TextStyle(color: theme.colorScheme.primary),
+                ),
+                Text(
+                  "Login now",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
