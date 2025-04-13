@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_chat_app/auth/auth_service.dart';
+import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 
 import '../components/my_button.dart';
 import '../components/my_textfield.dart';
@@ -21,7 +21,10 @@ class RegisterPage extends StatelessWidget {
     // passwords match -> create user
     if (_pwController.text == _confirmPwController.text) {
       try {
-        auth.signUpWithEmailPassword(_emailController.text, _pwController.text);
+        auth.createUserWithEmailPassword(
+          _emailController.text,
+          _pwController.text,
+        );
       } catch (e) {
         showDialog(
           context: context,
