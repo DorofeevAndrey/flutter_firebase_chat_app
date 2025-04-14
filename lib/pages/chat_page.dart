@@ -96,7 +96,7 @@ class ChatPage extends StatelessWidget {
 
   Widget _buildUserInput(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30.0),
+      padding: const EdgeInsets.only(bottom: 20.0, top: 20),
       child: Row(
         children: [
           // textfild should take up most of the space
@@ -110,13 +110,16 @@ class ChatPage extends StatelessWidget {
           // send button
           Container(
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Theme.of(context).colorScheme.tertiary,
               shape: BoxShape.circle,
             ),
             margin: EdgeInsets.only(right: 20),
             child: IconButton(
               onPressed: sendMessage,
-              icon: Icon(Icons.arrow_upward, color: Colors.white),
+              icon: Icon(
+                Icons.arrow_upward,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
             ),
           ),
         ],
