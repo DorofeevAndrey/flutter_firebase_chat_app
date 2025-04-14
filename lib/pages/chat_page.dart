@@ -4,6 +4,8 @@ import 'package:flutter_firebase_chat_app/components/my_textfield.dart';
 import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 import 'package:flutter_firebase_chat_app/services/chat/chat_service.dart';
 
+import '../components/chat_bubble.dart';
+
 class ChatPage extends StatelessWidget {
   final String receiverEmail;
   final String receiverID;
@@ -31,14 +33,21 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(receiverEmail), centerTitle: true),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(receiverEmail),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
+        elevation: 0,
+      ),
       body: Column(
         children: [
           // display all the messages
           Expanded(child: _buildMessageList()),
 
           // user input
-          _buildUserInput(),
+          _buildUserInput(context),
         ],
       ),
     );
@@ -72,23 +81,46 @@ class ChatPage extends StatelessWidget {
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-    return Text(data["message"]);
+    // is current user
+    bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
+
+    // align message to the right if sender is the current user, otherwise left
+    var alignment =
+        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+    return Container(
+      alignment: alignment,
+      child: ChatBubble(message: data["message"], isCurrentUser: isCurrentUser),
+    );
   }
 
-  Widget _buildUserInput() {
-    return Row(
-      children: [
-        // textfild should take up most of the space
-        Expanded(
-          child: MyTextfield(
-            hintText: "Type a message",
-            obscureText: false,
-            controller: _messageController,
+  Widget _buildUserInput(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30.0),
+      child: Row(
+        children: [
+          // textfild should take up most of the space
+          Expanded(
+            child: MyTextfield(
+              hintText: "Type a message",
+              obscureText: false,
+              controller: _messageController,
+            ),
           ),
-        ),
-        // send button
-        IconButton(onPressed: sendMessage, icon: Icon(Icons.arrow_upward)),
-      ],
+          // send button
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+            margin: EdgeInsets.only(right: 20),
+            child: IconButton(
+              onPressed: sendMessage,
+              icon: Icon(Icons.arrow_upward, color: Colors.white),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

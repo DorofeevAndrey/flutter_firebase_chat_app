@@ -51,9 +51,9 @@ class ChatService {
   }
 
   // get message
-  Stream<QuerySnapshot> getMessages(String userID, otherUserID) {
+  Stream<QuerySnapshot> getMessages(String receiverID, senderID) {
     // construct a chatroom ID for the two users
-    List<String> ids = [userID, otherUserID];
+    List<String> ids = [receiverID, senderID];
     ids.sort();
     String chatRoomID = ids.join('_');
 
