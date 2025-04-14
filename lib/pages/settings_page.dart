@@ -32,6 +32,7 @@ class SettingsPage extends StatelessWidget {
 
             // switch toggle
             CupertinoSwitch(
+              activeColor: Colors.grey.shade700,
               value:
                   Provider.of<ThemeProvider>(context, listen: false).isDarkMode,
               onChanged: (value) {
