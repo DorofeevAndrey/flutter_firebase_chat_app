@@ -40,17 +40,18 @@ class HomePage extends StatelessWidget {
         // no data
         if (!snapshot.hasData) {
           return const Center(child: Text("No users found"));
+        } else {
+          return ListView(
+            children:
+                snapshot.data!
+                    .map<Widget>(
+                      (userData) => _buildUserListItem(userData, context),
+                    )
+                    .toList(),
+          );
         }
 
         // return list view
-        return ListView(
-          children:
-              snapshot.data!
-                  .map<Widget>(
-                    (userData) => _buildUserListItem(userData, context),
-                  )
-                  .toList(),
-        );
       },
     );
   }
@@ -61,18 +62,22 @@ class HomePage extends StatelessWidget {
     BuildContext context,
   ) {
     // display all users except current user
-    return UserTile(
-      title: userData["email"],
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatPage(receiverEmail: userData["email"]),
-          ),
-        );
-      },
+    if (userData["email"] != authService.getCurrentUser()!.email) {
+      return UserTile(
+        title: userData["email"],
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(receiverEmail: userData["email"]),
+            ),
+          );
+        },
 
-      // tapped on a user -> go to chat page
-    );
+        // tapped on a user -> go to chat page
+      );
+    } else {
+      return Container();
+    }
   }
 }
