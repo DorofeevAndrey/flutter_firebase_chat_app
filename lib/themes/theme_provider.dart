@@ -4,7 +4,10 @@ import 'dark_mode.dart';
 import 'light_mode.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData _themeData = lightMode;
+  ThemeData _themeData;
+
+  ThemeProvider({required Brightness systemBrightness})
+    : _themeData = systemBrightness == Brightness.dark ? darkMode : lightMode;
 
   ThemeData get themeData => _themeData;
 
@@ -16,10 +19,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   void toggleTheme() {
-    if (_themeData == lightMode) {
-      themeData = darkMode;
-    } else {
-      themeData = lightMode;
-    }
+    _themeData = _themeData == lightMode ? darkMode : lightMode;
+    notifyListeners();
   }
 }

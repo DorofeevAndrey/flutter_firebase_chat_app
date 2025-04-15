@@ -10,10 +10,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  final Brightness platformBrightness =
+      WidgetsBinding.instance.platformDispatcher.platformBrightness;
+
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: MyApp(),
+      create: (_) => ThemeProvider(systemBrightness: platformBrightness),
+      child: const MyApp(),
     ),
   );
 }
