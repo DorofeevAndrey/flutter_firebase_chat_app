@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'chats_page.dart';
-import 'friends_page.dart';
-import 'settings_page.dart';
+import '../chat/chats_page.dart';
+import '../friend/friends_page.dart';
+import '../setting/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../services/auth/auth_service.dart';
+import '../../services/auth/auth_service.dart';
 
 class SettingsPage extends StatelessWidget {
   SettingsPage({super.key});
@@ -22,13 +21,15 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(_authService.getCurrentUser()!.email!),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         elevation: 0,
       ),
+
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          SizedBox(height: 10),
           Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
@@ -39,25 +40,29 @@ class SettingsPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // dark mode
-                Text(
-                  "Dark Mode",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                // динамичный текст
+                Consumer<ThemeProvider>(
+                  builder: (context, provider, child) {
+                    return Text(
+                      provider.isDarkMode ? "Dark Mode" : "Light Mode",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  },
                 ),
 
                 // switch toggle
-                CupertinoSwitch(
-                  activeTrackColor: Colors.grey.shade700,
-                  value:
-                      Provider.of<ThemeProvider>(
-                        context,
-                        listen: false,
-                      ).isDarkMode,
-                  onChanged: (value) {
-                    Provider.of<ThemeProvider>(
-                      context,
-                      listen: false,
-                    ).toggleTheme();
+                Consumer<ThemeProvider>(
+                  builder: (context, provider, child) {
+                    return CupertinoSwitch(
+                      activeTrackColor: Colors.grey.shade700,
+                      value: provider.isDarkMode,
+                      onChanged: (_) {
+                        provider.toggleTheme();
+                      },
+                    );
                   },
                 ),
               ],

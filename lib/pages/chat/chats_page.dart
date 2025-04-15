@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../components/user_tile.dart';
-import '../services/auth/auth_service.dart';
-import '../services/chat/chat_service.dart';
+import '../../components/user_tile.dart';
+import '../../services/auth/auth_service.dart';
+import '../../services/chat/chat_service.dart';
 import 'chat_page.dart';
 
 class ChatsPage extends StatelessWidget {
@@ -18,7 +18,7 @@ class ChatsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Chats"),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         elevation: 0,
       ),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -46,12 +46,12 @@ class ChatsPage extends StatelessWidget {
           return const Center(child: Text("No users found"));
         } else {
           return ListView(
-            children:
-                snapshot.data!
-                    .map<Widget>(
-                      (userData) => _buildUserListItem(userData, context),
-                    )
-                    .toList(),
+            children: [
+              SizedBox(height: 10), // Отступ сверху
+              ...snapshot.data!.map<Widget>(
+                (userData) => _buildUserListItem(userData, context),
+              ),
+            ],
           );
         }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 
-import '../components/my_button.dart';
-import '../components/my_textfield.dart';
+import '../../components/my_button.dart';
+import '../../components/my_textfield.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});

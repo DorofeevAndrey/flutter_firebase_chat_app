@@ -4,7 +4,7 @@ import 'package:flutter_firebase_chat_app/components/my_textfield.dart';
 import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 import 'package:flutter_firebase_chat_app/services/chat/chat_service.dart';
 
-import '../components/chat_bubble.dart';
+import '../../components/chat_bubble.dart';
 
 class ChatPage extends StatefulWidget {
   final String receiverEmail;
@@ -89,8 +89,8 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.receiverEmail),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         elevation: 0,
       ),
       body: Column(
