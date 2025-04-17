@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/components/user_tile.dart';
-import 'package:flutter_firebase_chat_app/pages/chat/chat_page.dart';
-import 'package:flutter_firebase_chat_app/pages/notification/notification_page.dart';
+import 'package:flutter_firebase_chat_app/screens/notification/notification_page.dart';
 import 'package:flutter_firebase_chat_app/services/friend/friend_service.dart';
+import 'add_friend_page.dart';
+import 'user_page.dart';
 
-class ChatsPage extends StatelessWidget {
-  ChatsPage({super.key});
+class FriendsPage extends StatelessWidget {
+  FriendsPage({super.key});
 
   final FriendService _friendService = FriendService();
 
@@ -22,7 +23,18 @@ class ChatsPage extends StatelessWidget {
           },
           icon: Icon(Icons.notifications),
         ),
-        title: Text("Chats"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddFriendPage()),
+              );
+            },
+            icon: Icon(Icons.add),
+          ),
+        ],
+        title: Text("Friends"),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
         elevation: 0,
@@ -41,7 +53,7 @@ class ChatsPage extends StatelessWidget {
             }
 
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text("No chats found"));
+              return Center(child: Text("No friends found"));
             }
 
             return ListView.builder(
@@ -54,10 +66,7 @@ class ChatsPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder:
-                            (context) => ChatPage(
-                              receiverEmail: friend['email'],
-                              receiverID: friend['uid'],
-                            ),
+                            (context) => UserPage(userEmail: friend['email']),
                       ),
                     );
                   },

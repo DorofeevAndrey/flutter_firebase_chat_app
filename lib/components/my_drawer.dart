@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/auth/auth_service.dart';
-import '../pages/setting/settings_page.dart';
+import '../screens/setting/settings_page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});

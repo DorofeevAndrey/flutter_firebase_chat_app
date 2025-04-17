@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_app/components/user_tile.dart';
-import 'package:flutter_firebase_chat_app/pages/notification/notification_page.dart';
+import 'package:flutter_firebase_chat_app/screens/chat/chat_page.dart';
+import 'package:flutter_firebase_chat_app/screens/notification/notification_page.dart';
 import 'package:flutter_firebase_chat_app/services/friend/friend_service.dart';
-import 'add_friend_page.dart';
-import 'user_page.dart';
 
-class FriendsPage extends StatelessWidget {
-  FriendsPage({super.key});
+class ChatsPage extends StatelessWidget {
+  ChatsPage({super.key});
 
   final FriendService _friendService = FriendService();
 
@@ -23,18 +22,7 @@ class FriendsPage extends StatelessWidget {
           },
           icon: Icon(Icons.notifications),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddFriendPage()),
-              );
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
-        title: Text("Friends"),
+        title: Text("Chats"),
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
         elevation: 0,
@@ -53,7 +41,7 @@ class FriendsPage extends StatelessWidget {
             }
 
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text("No friends found"));
+              return Center(child: Text("No chats found"));
             }
 
             return ListView.builder(
@@ -66,7 +54,10 @@ class FriendsPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder:
-                            (context) => UserPage(userEmail: friend['email']),
+                            (context) => ChatPage(
+                              receiverEmail: friend['email'],
+                              receiverID: friend['uid'],
+                            ),
                       ),
                     );
                   },

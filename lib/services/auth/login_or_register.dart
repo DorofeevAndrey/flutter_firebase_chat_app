@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_chat_app/pages/start/login_page.dart';
-import 'package:flutter_firebase_chat_app/pages/start/register_page.dart';
+import 'package:flutter_firebase_chat_app/screens/start/login_page.dart';
+import 'package:flutter_firebase_chat_app/screens/start/register_page.dart';
 
 class LoginOrRegister extends StatefulWidget {
   const LoginOrRegister({super.key});

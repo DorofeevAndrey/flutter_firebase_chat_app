@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_chat_app/pages/chat/chat_page.dart';
+import 'package:flutter_firebase_chat_app/screens/chat/chat_page.dart';
 import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 import 'package:flutter_firebase_chat_app/services/friend/friend_service.dart';
 
