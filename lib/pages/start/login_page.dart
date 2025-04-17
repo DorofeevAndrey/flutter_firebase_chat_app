@@ -4,15 +4,61 @@ import 'package:flutter_firebase_chat_app/services/auth/auth_service.dart';
 import '../../components/my_button.dart';
 import '../../components/my_textfield.dart';
 
-class LoginPage extends StatelessWidget {
-  //email and pw text controllers
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _pwController = TextEditingController();
-
-  // tap to go to register page
+class LoginPage extends StatefulWidget {
   final void Function() onTap;
 
-  LoginPage({super.key, required this.onTap});
+  const LoginPage({super.key, required this.onTap});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? emailErrorText;
+  String? passwordErrorText;
+
+  //email and pw text controllers
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _pwController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_validateEmail);
+    _pwController.addListener(_validatePasswords);
+  }
+
+  bool isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
+  }
+
+  void _validateEmail() {
+    final email = _emailController.text;
+    setState(() {
+      if (email.isEmpty) {
+        emailErrorText = null;
+      } else if (!isValidEmail(email)) {
+        emailErrorText = 'Некорректный email';
+      } else {
+        emailErrorText = null;
+      }
+    });
+  }
+
+  void _validatePasswords() {
+    final pw = _pwController.text;
+
+    setState(() {
+      // Проверка длины
+      if (pw.isNotEmpty && pw.length < 6) {
+        passwordErrorText = 'Слишком короткий пароль (мин. 6 символов)';
+      } else {
+        passwordErrorText = null;
+      }
+    });
+  }
 
   // login
   void login(context) async {
@@ -27,7 +73,13 @@ class LoginPage extends StatelessWidget {
     } catch (e) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(title: Text(e.toString())),
+        builder:
+            (context) => AlertDialog(
+              title: Text(
+                "Неккоректное имя пользователя или пароль",
+                // style: TextStyle(fontWeight: FontWeight.w300),
+              ),
+            ),
       );
     }
   }
@@ -57,19 +109,28 @@ class LoginPage extends StatelessWidget {
               hintText: "Email",
               obscureText: false,
               controller: _emailController,
+              errorText: emailErrorText,
             ),
             const SizedBox(height: 10),
 
             // pw textfield
             MyTextfield(
+              errorText: passwordErrorText,
               hintText: "Password",
               obscureText: true,
               controller: _pwController,
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 10),
 
             // login button
-            MyButton(title: "Login", onTap: () => login(context)),
+            MyButton(
+              isDisable: emailErrorText != null || passwordErrorText != null,
+              title: "Login",
+
+              onTap: () {
+                login(context);
+              },
+            ),
             const SizedBox(height: 25),
 
             // regiter now
@@ -81,7 +142,7 @@ class LoginPage extends StatelessWidget {
                   style: TextStyle(color: theme.colorScheme.primary),
                 ),
                 GestureDetector(
-                  onTap: onTap,
+                  onTap: widget.onTap,
                   child: Text(
                     "Register now",
                     style: TextStyle(
